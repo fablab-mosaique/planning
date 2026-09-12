@@ -1,0 +1,13 @@
+@reference "tailwindcss";
+
+* {
+  font-family: "Candy";
+}
+
+h1 {
+  @apply text-center w-fit p-0 m-0 mx-auto text-xl;
+}
+
+h2 {
+  @apply w-fit p-0 m-0 mx-auto text-lg;
+}
