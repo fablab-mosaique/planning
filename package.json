@@ -1,0 +1,10 @@
+{
+  "name": "Prototype",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  }
+}

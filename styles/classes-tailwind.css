@@ -1,0 +1,29 @@
+@reference "tailwindcss";
+
+.month {
+  @apply flex flex-col w-225 min-w-225 rounded-lg py-2 px-4 bg-[#eee] gap-2 h-full;
+}
+
+.date {
+  @apply flex flex-col border border-solid rounded-lg items-center text-(--main-dark);
+  &.activities {
+    @apply border border-solid border-(--main) bg-(--second-light) cursor-pointer;
+  }
+  &.cloture {
+    @apply border border-solid border-(--main) bg-black cursor-pointer;
+  }
+  &.today {
+    border: 6px groove var(--main) !important;
+  }
+}
+
+.month-resume {
+  @apply border border-solid p-1 text-center rounded-lg text-sm bg-(--main-light);
+  &:hover {
+    @apply bg-purple-400 text-white cursor-pointer;
+  }
+}
+
+.resume-day {
+  @apply flex bg-(--main-light) h-full rounded-lg p-1 pt-0 flex-col min-w-0 overflow-x-hidden overflow-y-auto;
+}

@@ -1,0 +1,20 @@
+@reference "tailwindcss";
+
+:root {
+  --main: var(--color-purple-300);
+  --main-light: var(--color-purple-200);
+  --main-dark: var(--color-purple-500);
+  --second-light: var(--color-yellow-200);
+}
+
+#container {
+  @apply flex overflow-y-hidden overflow-x-auto w-full gap-4;
+}
+
+#resume {
+  @apply grid grid-cols-1 min-w-fit h-fit rounded-lg my-auto gap-2 bg-(--main) text-black;
+}
+
+#content {
+  @apply flex max-h-screen h-[calc(100vh-4rem)] justify-between gap-2 p-4 bg-(--main);
+}
