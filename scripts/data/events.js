@@ -75,5 +75,11 @@ planning.addEvent(
   "14h",
 );
 planning.addEvent(5, Month.DECEMBRE, "Création de circuits imprimés", "14h");
-
+planning.addEvent(
+  10,
+  Month.NOVEMBRE,
+  "Atelier Bricolab",
+  "10h30",
+  "12h",
+  );
 planning.show();
