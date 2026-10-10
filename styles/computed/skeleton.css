@@ -65,7 +65,7 @@ h2 {
 }
 
 #resume {
-  @apply grid grid-cols-1 min-w-fit h-fit rounded-lg my-auto gap-2 bg-(--main) text-(--dark);
+  @apply grid grid-cols-1 min-w-fit h-fit rounded-lg my-auto gap-2 bg-(--main) text-(--dark) max-h-full overflow-y-auto;
 }
 
 #content {

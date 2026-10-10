@@ -1,13 +1,16 @@
 import { Activity } from "./activity.js";
 import { Day, EventDate, Month } from "./date.js";
+import { Parser } from "./parser.js";
 
 export class Planning {
   /**
    *
    * @param {number} year
+   * @param {'console' | 'body'} showError
    */
-  constructor(year) {
+  constructor(year, showError = "console") {
     this.year = year;
+    this.showError = showError;
     this._months = Array.from(Object.values(Month));
     this.indexRotate = this._months.findIndex((el) => el.value === "Septembre");
     const rotate = [
@@ -18,6 +21,7 @@ export class Planning {
      * @type {{name: string, days: EventDate[]}[]}
      */
     this.data = [];
+    this.parser = new Parser();
 
     rotate.forEach((el, indexMonth) => {
       const currentYear =
@@ -39,6 +43,90 @@ export class Planning {
         days,
       });
     });
+  }
+
+  /**
+   * @param {string} file
+   */
+  async loadFile(file) {
+    try {
+      const contenu = await this._getFile(file);
+      const events = this.parser.parse(contenu);
+      if (events.length > 0) {
+        events.forEach((el) => {
+          const { activity, cloture, dates, heureDebut, heureFin, repeat } = el;
+
+          if (cloture) {
+            if (repeat != null) {
+              this.repeatCloture(
+                dates[0].day,
+                dates[0].month,
+                dates[1].day,
+                dates[1].month,
+                repeat,
+              );
+            } else {
+              this.addCloture(dates[0].day, dates[0].month);
+            }
+          } else {
+            if (repeat === "multiple") {
+              this.addEvents(dates, activity, heureDebut, heureFin ?? null);
+            } else if (repeat != null) {
+              this.repeatEvent(
+                dates[0].day,
+                dates[0].month,
+                dates[1].day,
+                dates[1].month,
+                repeat,
+                activity,
+                heureDebut,
+                heureFin,
+              );
+            } else {
+              this.addEvent(
+                dates[0].day,
+                dates[0].month,
+                activity,
+                heureDebut,
+                heureFin,
+              );
+            }
+          }
+        });
+      }
+    } catch (err) {
+      if (this.showError === "body") {
+        const span = document.createElement("span");
+        span.classList.add(
+          "flex",
+          "absolute",
+          "right-0",
+          "p-2",
+          "rounded-lg",
+          "text-white",
+          "top-0",
+          "min-w-32",
+          "max-w-36",
+          "bg-red-500",
+        );
+        span.textContent = `Un problème s'est produit lors de la lecture du fichier '${file}' : ${err}`;
+        document.body.classList.add("relative");
+        document.body.appendChild(span);
+      } else if (this.showError === "console") {
+        console.error(
+          "Un problème s'est produit lors de la lecture du fichier :",
+          err,
+        );
+      }
+    }
+  }
+
+  async _getFile(csvFile) {
+    const response = await fetch("./scripts/data/" + csvFile);
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ${response.status} : ${csvFile}`);
+    }
+    return await response.text();
   }
 
   /**
@@ -85,7 +173,7 @@ export class Planning {
    * @param {Month} startMonth
    * @param {number} endDay
    * @param {Month} endMonth
-   * @param {'hebdo' | 'period'} mode
+   * @param {'hebdo' | 'period' | 'bihebdo'} mode
    */
   repeatCloture(startDay, startMonth, endDay, endMonth, mode) {
     this._repeatEvent(startDay, startMonth, endDay, endMonth, mode, (current) =>
@@ -99,7 +187,7 @@ export class Planning {
    * @param {Month} startMonth
    * @param {number} endDay
    * @param {Month} endMonth
-   * @param {'hebdo' | 'period'} mode
+   * @param {'hebdo' | 'period' | 'bihebdo'} mode
    * @param {string} activity
    * @param {string} startTime
    * @param {string} endTime
@@ -133,7 +221,7 @@ export class Planning {
    * @param {Month} startMonth
    * @param {number} endDay
    * @param {Month} endMonth
-   * @param {'hebdo' | 'period'} mode
+   * @param {'hebdo' | 'period' | 'bihebdo'} mode
    * @param {(current:EventDate) => void} f
    */
   _repeatEvent(startDay, startMonth, endDay, endMonth, mode, f) {
@@ -142,6 +230,8 @@ export class Planning {
     let jump = 0;
     if (mode === "hebdo") {
       jump = 7;
+    } else if (mode === "bihebdo") {
+      jump = 14;
     } else if (mode === "period") {
       jump = 1;
     }
@@ -242,8 +332,13 @@ export class Planning {
           }
           date.addEventListener("click", function () {
             const summary = document.getElementById(`${el.name}_summary`);
+            if (!summary) {
+              return;
+            }
             Planning._cleanSummary(summary);
-            summary.classList.remove("hidden!");
+            if (summary) {
+              summary.classList.remove("hidden!");
+            }
             // Ajout du bouton de fermeture
             const closer = document.createElement("span");
             closer.textContent = "x";
@@ -273,6 +368,7 @@ export class Planning {
                 "top-0",
                 "bg-(--main-light)",
               );
+
               summary.appendChild(span);
             } else {
               const span = document.createElement("h3");
@@ -301,7 +397,7 @@ export class Planning {
             }
           });
           if (currentDay) {
-            currentDay.click()
+            currentDay.click();
           }
         }
 
@@ -324,7 +420,6 @@ export class Planning {
       divMonth.appendChild(divActivitiesOnDay);
 
       dest.appendChild(divMonth);
-
     });
 
     const visit = this._months.find((el, index) => index === today.getMonth());

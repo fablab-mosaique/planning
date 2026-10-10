@@ -1,0 +1,35 @@
+Clôture | Activité                                                      | Heure début | Heure fin | Répétition | Dates
+---------------------------------------------------------------------------------------------------------------------------
+Activités hors vacances scolaires
+
+F       | Bac à sable (9-12 ans)                                        | 14h         | 16h       | HEBDO      | 2 septembre,25 août
+F       | Bac à sable (+13 ans)                                         | 16h         | 18h       | HEBDO      | 2 septembre,25 août
+
+Vacances scolaires
+V       | /                                                             | /           | /         | HEBDO      | 6 septembre,29 août
+V       | /                                                             | /           | /         | HEBDO      | 7 septembre,30 août
+V       | /                                                             | /           | /         | PERIOD     | 17 octobre,2 novembre
+V       | /                                                             | /           | /         | PERIOD     | 19 décembre,4 janvier
+V       | /                                                             | /           | /         | PERIOD     | 20 février,8 mars
+V       | /                                                             | /           | /         | PERIOD     | 17 avril,3 mai
+V       | /                                                             | /           | /         | PERIOD     | 5 mai,10 mai
+V       | /                                                             | /           | /         | PERIOD     | 3 juillet,31 août
+F       | Fablab libre                                                  | 9h          | /         | MULTIPLE   | 10 octobre,7 novembre,21 novembre, 5 décembre
+
+Jours fériés                 
+V       | /                                                             | /           | /         | /          | 1 novembre
+V       | /                                                             | /           | /         | /          | 11 novembre
+V       | /                                                             | /           | /         | /          | 25 décembre
+V       | /                                                             | /           | /         | /          | 29 mars
+V       | /                                                             | /           | /         | /          | 1 mai
+V       | /                                                             | /           | /         | /          | 6 mai
+V       | /                                                             | /           | /         | /          | 8 mai
+V       | /                                                             | /           | /         | /          | 17 mai
+V       | /                                                             | /           | /         | /          | 14 juillet
+V       | /                                                             | /           | /         | /          | 15 août
+
+F       | Initiation à l'impression 3D (adultes)                        | 16h         |           |            | 1 octobre
+F       | Découverte de l'impression 3D avec TinkerCad                  | 14h         |           |            | 7 novembre
+F       | Découverte du prototypage électronique avec Arduino et ESP32  | 14h         |           |            | 21 novembre
+F       | Création de circuits imprimés                                 | 14h         |           |            | 5 décembre
+
